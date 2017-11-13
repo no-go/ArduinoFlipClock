@@ -2,6 +2,10 @@
 
 This is a Arduino IDE project to run flip clock on a i2c monochrom OLED display with a atmega chip.
 
+# Circuit
+
+![circuit i2c OLED Arduino Pro Mini](img/circuit.png)
+
 # Concept
 
 I split a number into 2 bitmaps: upper and lower part. Both parts: 16x16 pixel.
@@ -39,14 +43,10 @@ than the upper part of the flipping and makes the flipping more realistic.
 5.  place the upper part of the actual number
 6.  print 3 lines to emulate a "number card"
 
-![concept Flip Clock](concept.png)
-
-# Circuit
-
-![circuit i2c OLED Arduino Pro Mini](circuit.png)
+![concept Flip Clock](img/concept.png)
 
 # Picture & Video
 
-![Arduino Flip Clock](picture.jpg)
+![Arduino Flip Clock](img/picture.jpg)
 
 [Video](https://youtu.be/-g_iMmHoepM)
