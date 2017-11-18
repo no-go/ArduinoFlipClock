@@ -66,3 +66,6 @@ than the upper part of the flipping and makes the flipping more realistic.
 
 ![concept Flip Clock](img/concept.png)
 
+# Video
+
+![isyoutube](https://www.youtube.com/watch?v=nSYj3EDvjkI)
