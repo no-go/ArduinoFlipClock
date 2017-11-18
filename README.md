@@ -7,6 +7,8 @@ This is a Arduino IDE project to run flip clock on a i2c monochrom OLED display 
 This Branch has a modified version of the `Adafruit_SDD1306` lib and works
 on my Sparkfun Micro OLED Breakout Display (64x48).
 
+![small Watch with Flip-Numbers with Sparkfun Micro OLED Breakout Display 64x48](img/picture.jpg)
+
 # Circuit
 
 ![circuit SPI Adafruit PRO Trinket and SPI Sparkfun Micro OLED Breakout Display](img/circuit.png)
