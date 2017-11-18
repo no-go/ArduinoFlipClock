@@ -1,10 +1,15 @@
-# Arduino FlipClock
+# Arduino Pro Trinket FlipClock
 
 This is a Arduino IDE project to run flip clock on a i2c monochrom OLED display with a atmega chip.
 
+# This Branch
+
+This Branch has a modified version of the `Adafruit_SDD1306` lib and works
+on my Sparkfun Micro OLED Breakout Display (64x48).
+
 # Circuit
 
-![circuit i2c OLED Arduino Pro Mini](img/circuit.png)
+![circuit SPI Adafruit PRO Trinket and SPI Sparkfun Micro OLED Breakout Display](img/circuit.png)
 
 # Concept
 
@@ -59,8 +64,3 @@ than the upper part of the flipping and makes the flipping more realistic.
 
 ![concept Flip Clock](img/concept.png)
 
-# Picture & Video
-
-![Arduino Flip Clock](img/picture.jpg)
-
-[Video](https://youtu.be/-g_iMmHoepM)
