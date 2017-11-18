@@ -68,4 +68,6 @@ than the upper part of the flipping and makes the flipping more realistic.
 
 # Video
 
-![isyoutube](https://www.youtube.com/watch?v=nSYj3EDvjkI)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=nSYj3EDvjkI
+" target="_blank"><img src="http://img.youtube.com/vi/nSYj3EDvjkI/0.jpg" 
+alt="Video" width="240" height="180" border="10" /></a>
