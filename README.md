@@ -26,7 +26,7 @@ If the Display is on you can use the watch as Bluetooth Keyboard. Button 1 and 2
 - volume up or down
 - cursor up or down
 
-## Display off
+## if display is off
 
 ### Button 1
 
@@ -39,17 +39,17 @@ If the Display is on you can use the watch as Bluetooth Keyboard. Button 1 and 2
 **hold** : run through 6 different LED colors + Black. If color is black, display shows the
 new bluetooth mode
 
-## Display on
+## if display is on
 
 ### Button 1
 
 **short press** : *media prev*, *volume up* or *cursor up*
 
-**long press** : set minutes up
-
 ### Button 2
 
 **short press** : *media next*, *volume down* or *cursor down*
+
+**long press** : set minutes up
 
 # Picture
 
