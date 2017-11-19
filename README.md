@@ -1,17 +1,20 @@
-# Arduino Flip Watch (Candy)
+# Bluetooth Flip Watch (Candy)
 
-This is a Arduino IDE project to run flip clock on a i2c monochrom OLED display with a atmega chip.
+This is a Arduino IDE project to run flip clock on a monochrom OLED display with a atmega chip. I add some
+bluetooth features and a LED Lamp to the project.
 
-# Circuit
-
-I add a Bluefruit UART nRF51 friend in this Branch and a RGB LED.
-
-# features
+# Features
 
 - Big Clock (set hours+minutes)
 - LED Lamp (different colors)
 - flipping seconds
 - use buttons as bluetooth keyboard (volume keys, cursor keys, media previous/next)
+
+# Circuit
+
+I add a Bluefruit UART nRF51 friend in this Branch and a RGB LED.
+
+![circuit 64x48 OLED Pro Trinket](img/circuit.png)
 
 # Usage
 
@@ -48,3 +51,6 @@ new bluetooth mode
 
 **short press** : *media next*, *volume down* or *cursor down*
 
+# Picture
+
+![Bluetooth Control Flip Watch](img/picture.jpg)
