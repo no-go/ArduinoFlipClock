@@ -26,7 +26,15 @@
 
 #define OFFSEC   6
 
-int modus = 2;  // 0=media previous, 1=volume+ , 2=cursor up
+/*
+ *  0 = set hours
+ *  1 = set minutes
+ *  2 = media previous
+ *  3 = volume+ -
+ *  4 = cursor up down
+ *  5 = bluetooth off
+ */
+int modus = 0;
 uint8_t looper = 0; // color looper
       
 byte hours   = 18;
@@ -318,12 +326,34 @@ void loop() {
     if (onsec > 0) {
       switch(modus) {
         case 0:
-          Serial.println("AT+BleHidControlKey=MEDIAPREVIOUS");
+          while (digitalRead(BUTTON1) == LOW) {
+            hours = (hours+1)%24;
+            seconds = 0;
+            tick = 0;
+            oled->clearDisplay();
+            flipClock();
+            oled->display();
+            delay(250);
+          }
           break;
         case 1:
-          Serial.println("AT+BleHidControlKey=VOLUME+");
+          while (digitalRead(BUTTON1) == LOW) {
+            minutes = (minutes+1)%60;
+            seconds = 0;
+            tick = 0;
+            oled->clearDisplay();
+            flipClock();
+            oled->display();
+            delay(250);
+          }
           break;
         case 2:
+          Serial.println("AT+BleHidControlKey=MEDIAPREVIOUS");
+          break;
+        case 3:
+          Serial.println("AT+BleHidControlKey=VOLUME+");
+          break;
+        case 4:
           Serial.println("AT+BleKeyboardCode=00-00-52-00-00");
           Serial.println("AT+BleKeyboardCode=00-00");
           break;
@@ -335,18 +365,6 @@ void loop() {
     // switch display on
     onsec = 0;
     oled->ssd1306_command(SSD1306_DISPLAYON);
-
-    // long press to set hours
-    delay(700);
-    while (digitalRead(BUTTON1) == LOW) {
-      hours = (hours+1)%24;
-      seconds = 0;
-      tick = 0;
-      oled->clearDisplay();
-      flipClock();
-      oled->display();
-      delay(250);
-    }
   }
 
   if (digitalRead(BUTTON2) == LOW) {
@@ -356,12 +374,34 @@ void loop() {
 
       switch(modus) {
         case 0:
-          Serial.println("AT+BleHidControlKey=MEDIANEXT");
+          while (digitalRead(BUTTON2) == LOW) {
+            hours = (hours==0) ? 23 :(hours-1)%24;
+            seconds = 0;
+            tick = 0;
+            oled->clearDisplay();
+            flipClock();
+            oled->display();
+            delay(250);
+          }
           break;
         case 1:
-          Serial.println("AT+BleHidControlKey=VOLUME-");
+          while (digitalRead(BUTTON2) == LOW) {
+            minutes = (minutes==0) ? 59 :(minutes-1)%60;
+            seconds = 0;
+            tick = 0;
+            oled->clearDisplay();
+            flipClock();
+            oled->display();
+            delay(250);
+          }
           break;
         case 2:
+          Serial.println("AT+BleHidControlKey=MEDIANEXT");
+          break;
+        case 3:
+          Serial.println("AT+BleHidControlKey=VOLUME-");
+          break;
+        case 4:
           Serial.println("AT+BleKeyboardCode=00-00-51-00-00");
           Serial.println("AT+BleKeyboardCode=00-00");
           break;
@@ -370,18 +410,7 @@ void loop() {
       }
 
       onsec = 0;
-
-      // long press to set minutes
-      delay(700);
-      while (digitalRead(BUTTON2) == LOW) {
-        minutes = (minutes+1)%60;
-        seconds = 0;
-        tick = 0;
-        oled->clearDisplay();
-        flipClock();
-        oled->display();
-        delay(250);
-      }  
+  
     // display is off  
     } else {
       // run through colors 
@@ -397,17 +426,35 @@ void loop() {
           oled->clearDisplay();
           oled->setTextSize(1);  
           oled->setCursor(0, 0);
-          
-          modus = (modus+1)%3;
+
+          modus = (modus+1)%6;
           switch(modus) {
             case 0:
-              oled->print("   media\n prev/next");
+              oled->print("\nset hours ");
+              oled->print("\n   +/-");
               break;
             case 1:
-              oled->print("volume -/+");
+              oled->print("\nset minute");
+              oled->print("\n   +/-");
               break;
             case 2:
-              oled->print("cursor\n up/down");
+              Serial.println("AT+BLEPOWERLEVEL=-8");
+              oled->print("\n   media ");
+              oled->print("\n prev/next");
+              break;
+            case 3:
+              Serial.println("AT+BLEPOWERLEVEL=-8");
+              oled->print("\nvolume -/+");
+              break;
+            case 4:
+              Serial.println("AT+BLEPOWERLEVEL=-8");
+              oled->print("\n cursor");
+              oled->print("\n up/down");
+              break;
+            case 5:
+              Serial.println("AT+BLEPOWERLEVEL=-40");
+              oled->print("\nBluetooth\n");
+              oled->print("\n   off");
               break;
             default:
             ;
@@ -415,6 +462,7 @@ void loop() {
           oled->display();
           delay(1000);
           oled->ssd1306_command(SSD1306_DISPLAYOFF);
+          digitalWrite(OLED_CLK, LOW);
         }
       }
     }

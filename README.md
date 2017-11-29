@@ -18,13 +18,21 @@ I add a Bluefruit UART nRF51 friend in this Branch and a RGB LED.
 
 # Usage
 
-## Bluetooth modes
+## modes
 
-If the Display is on you can use the watch as Bluetooth Keyboard. Button 1 and 2 has 3 modes:
+If the Display is on you can use the watch as Bluetooth Keyboard. Button 1 and 2 has 6 modes:
+
+### set clock
+
+- set hours up, down
+- set minutes up, down
+
+### Bluetooth
 
 - media prev or next
 - volume up or down
 - cursor up or down
+- off
 
 ## if display is off
 
@@ -32,24 +40,20 @@ If the Display is on you can use the watch as Bluetooth Keyboard. Button 1 and 2
 
 **short press** : Display on
 
-**long press** : Display on + set hours up
-
 ### Button 2
 
 **hold** : run through 6 different LED colors + Black. If color is black, display shows the
-new bluetooth mode
+new mode !!
 
 ## if display is on
 
 ### Button 1
 
-**short press** : *media prev*, *volume up* or *cursor up*
+**short press** : hours or minutes up, *media prev*, *volume up* or *cursor up*
 
 ### Button 2
 
-**short press** : *media next*, *volume down* or *cursor down*
-
-**long press** : set minutes up
+**short press** : hours or minutes down, *media next*, *volume down* or *cursor down*
 
 # Picture
 
