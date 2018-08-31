@@ -1,6 +1,7 @@
 #include <MsTimer2.h>
 #include "myNumbers.h"
 
+#include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include "Adafruit_SSD1306.h"
@@ -20,9 +21,10 @@
 #define LED_GREEN   9 
 #define LED_BLUE    3
 
-// NOT connected ---------------------
-#define POTI        A4 
-#define SPKR        A5  // A5 has no analog(PWM) Out :-(
+#include "DS3231M.h"
+// RTC Chip DS3231M: ---------------------
+// A4 = SDA
+// A5 = SCL
 
 #define OFFSEC   6
 
@@ -34,11 +36,11 @@
  *  4 = cursor up down
  *  5 = bluetooth off
  */
-int modus = 0;
+int modus = 5;
 uint8_t looper = 0; // color looper
-      
-byte hours   = 18;
-byte minutes = 59;
+
+RTCdata data = {20,34,1, 5, 31,8,18}; // (5 = Freitag, 01:34:20 Uhr 31.08.2018
+
 byte seconds = 50;
 byte tick    = 0;
 int onsec    = 0;
@@ -223,21 +225,22 @@ void myFont(byte x, short y, byte b, bool change) {
 
 inline void flipClock() {
   bool flap = false;
+  DS3231M_get(data);
   
   oled->setTextSize(2);  
   oled->setCursor(3, 0);
-  if (hours < 9) oled->print('0');
-  oled->print((int) hours);
-  if (seconds%2) oled->print(' '); else oled->print(':');
-  if (minutes < 9) oled->print('0');
-  oled->print((int) minutes);
+  if (data.hour < 9) oled->print('0');
+  oled->print((int) data.hour);
+  if (data.second%2) oled->print(' '); else oled->print(':');
+  if (data.minute < 9) oled->print('0');
+  oled->print((int) data.minute);
   
   flap = false;
-  int t = seconds/10;
-  if ((seconds+1)%10 == 0) flap=true;
+  int t = data.second/10;
+  if ((data.second+1)%10 == 0) flap=true;
   myFont(14, 16, t, flap);
   
-  t = seconds - t*10;
+  t = data.second - t*10;
   myFont(34, 16, t, true);
 }
 
@@ -249,15 +252,7 @@ inline void ticking() {
     if (onsec>=0 && onsec <= OFFSEC) onsec++;
   }
   if (seconds > 59) {
-    minutes += seconds / 60;
     seconds  = seconds % 60;
-  }
-  if (minutes > 59) {
-    hours  += minutes / 60;
-    minutes = minutes % 60;
-  }
-  if (hours > 23) {
-    hours = hours % 24;
   }
 }
 
@@ -266,9 +261,6 @@ void setup() {
       
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BUTTON2, INPUT_PULLUP);
-  pinMode(POTI, INPUT);
-
-  pinMode(SPKR, OUTPUT);
   
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
@@ -281,6 +273,10 @@ void setup() {
   digitalWrite(LED_RED, HIGH);
   digitalWrite(LED_GREEN, HIGH);
   digitalWrite(LED_BLUE, HIGH);
+
+  Wire.begin();
+  //DS3231M_set(data);
+  DS3231M_get(data);
 
   oled->begin();
   oled->clearDisplay();
@@ -327,24 +323,28 @@ void loop() {
       switch(modus) {
         case 0:
           while (digitalRead(BUTTON1) == LOW) {
-            hours = (hours+1)%24;
-            seconds = 0;
+            data.hour = (data.hour+1)%24;
+            data.second = 0;
+            DS3231M_set(data);
+            delay(100);
             tick = 0;
             oled->clearDisplay();
             flipClock();
             oled->display();
-            delay(250);
+            delay(150);
           }
           break;
         case 1:
           while (digitalRead(BUTTON1) == LOW) {
-            minutes = (minutes+1)%60;
-            seconds = 0;
+            data.minute = (data.minute+1)%60;
+            data.second = 0;
+            DS3231M_set(data);
+            delay(100);
             tick = 0;
             oled->clearDisplay();
             flipClock();
             oled->display();
-            delay(250);
+            delay(150);
           }
           break;
         case 2:
@@ -375,24 +375,28 @@ void loop() {
       switch(modus) {
         case 0:
           while (digitalRead(BUTTON2) == LOW) {
-            hours = (hours==0) ? 23 :(hours-1)%24;
-            seconds = 0;
+            data.hour = (data.hour==0) ? 23 :(data.hour-1)%24;
+            data.second = 0;
+            DS3231M_set(data);
+            delay(100);
             tick = 0;
             oled->clearDisplay();
             flipClock();
             oled->display();
-            delay(250);
+            delay(150);
           }
           break;
         case 1:
           while (digitalRead(BUTTON2) == LOW) {
-            minutes = (minutes==0) ? 59 :(minutes-1)%60;
-            seconds = 0;
+            data.minute = (data.minute==0) ? 59 :(data.minute-1)%60;
+            data.second = 0;
+            DS3231M_set(data);
+            delay(100);
             tick = 0;
             oled->clearDisplay();
             flipClock();
             oled->display();
-            delay(250);
+            delay(150);
           }
           break;
         case 2:

@@ -1,7 +1,7 @@
 # Bluetooth Flip Watch (Candy)
 
 This is a Arduino IDE project to run flip clock on a monochrom OLED display with a atmega chip. I add some
-bluetooth features and a LED Lamp to the project.
+bluetooth features and a LED Lamp to the project. I add a DS3231M RTC chip on i2c to have a correct time!
 
 # Features
 
@@ -9,6 +9,7 @@ bluetooth features and a LED Lamp to the project.
 - LED Lamp (different colors)
 - flipping seconds
 - use buttons as bluetooth keyboard (volume keys, cursor keys, media previous/next)
+- rtc chip
 
 # Circuit
 
