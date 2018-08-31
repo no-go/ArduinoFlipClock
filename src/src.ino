@@ -225,22 +225,21 @@ void myFont(byte x, short y, byte b, bool change) {
 
 inline void flipClock() {
   bool flap = false;
-  DS3231M_get(data);
   
   oled->setTextSize(2);  
   oled->setCursor(3, 0);
   if (data.hour < 9) oled->print('0');
   oled->print((int) data.hour);
-  if (data.second%2) oled->print(' '); else oled->print(':');
+  if (seconds%2) oled->print(' '); else oled->print(':');
   if (data.minute < 9) oled->print('0');
   oled->print((int) data.minute);
   
   flap = false;
-  int t = data.second/10;
-  if ((data.second+1)%10 == 0) flap=true;
+  int t = seconds/10;
+  if ((seconds+1)%10 == 0) flap=true;
   myFont(14, 16, t, flap);
   
-  t = data.second - t*10;
+  t = seconds - t*10;
   myFont(34, 16, t, true);
 }
 
@@ -317,6 +316,8 @@ void loop() {
   }
   
   if (digitalRead(BUTTON1) == LOW) {
+    DS3231M_get(data);
+    seconds = data.second;
 
     // display is on for more than 1sec
     if (onsec > 0) {
@@ -325,6 +326,7 @@ void loop() {
           while (digitalRead(BUTTON1) == LOW) {
             data.hour = (data.hour+1)%24;
             data.second = 0;
+            seconds = 0;
             DS3231M_set(data);
             delay(100);
             tick = 0;
@@ -338,6 +340,7 @@ void loop() {
           while (digitalRead(BUTTON1) == LOW) {
             data.minute = (data.minute+1)%60;
             data.second = 0;
+            seconds = 0;
             DS3231M_set(data);
             delay(100);
             tick = 0;
@@ -377,6 +380,7 @@ void loop() {
           while (digitalRead(BUTTON2) == LOW) {
             data.hour = (data.hour==0) ? 23 :(data.hour-1)%24;
             data.second = 0;
+            seconds = 0;
             DS3231M_set(data);
             delay(100);
             tick = 0;
@@ -390,6 +394,7 @@ void loop() {
           while (digitalRead(BUTTON2) == LOW) {
             data.minute = (data.minute==0) ? 59 :(data.minute-1)%60;
             data.second = 0;
+            seconds = 0;
             DS3231M_set(data);
             delay(100);
             tick = 0;
